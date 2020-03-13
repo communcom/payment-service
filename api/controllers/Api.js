@@ -2,13 +2,13 @@ const env = require('../../common/data/env');
 
 class Api {
     constructor() {
-        if (!env.API_KEY) {
-            throw new Error('env API_KEY is not specified');
+        if (!env.GLS_API_KEY) {
+            throw new Error('env GLS_API_KEY is not specified');
         }
     }
 
     async sendPayment({ apiKey, userId, quantity, memo }) {
-        if (env.API_KEY !== apiKey) {
+        if (env.GLS_API_KEY !== apiKey) {
             throw {
                 code: 401,
                 message: 'Unauthorized',

@@ -1,3 +1,3 @@
 module.exports = {
-    API_KEY: process.env.API_KEY,
+    GLS_API_KEY: process.env.GLS_API_KEY,
 };
