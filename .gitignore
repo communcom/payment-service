@@ -4,4 +4,5 @@ db
 .env
 .npmrc
 .vscode
+*.swp
 docker-compose.yml

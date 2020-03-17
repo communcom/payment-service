@@ -19,7 +19,7 @@ class Receiver extends Service {
         this._mq = await mq.connect(env.GLS_MQ_CONNECT);
 
         this._mq.on('error', err => {
-            Logger.error('MQ connection error:', err);
+            Logger.error('Message queue connection error:', err);
 
             try {
                 this._mq.close();
@@ -29,6 +29,12 @@ class Receiver extends Service {
         });
 
         this._channel = await this._mq.createChannel();
+
+        this._channel.on('close', () => {
+            Logger.error('Message queue channel closed');
+            this._sender.turnOff();
+        });
+
         await this._channel.assertQueue(QUEUE_NAME, {
             durable: true,
         });

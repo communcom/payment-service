@@ -4,8 +4,10 @@ services:
     container_name: payment-worker-node
     restart: always
     depends_on:
-      - payment-mongo
-      - payment-mq
+      payment-mongo:
+        condition: service_healthy
+      payment-mq:
+        condition: service_healthy
     build:
       context: .
       dockerfile: worker.Dockerfile
@@ -17,11 +19,12 @@ services:
     env_file:
       - .env
 
-  payment-api:
+  payment-api-node:
     container_name: payment-api-node
     restart: always
     depends_on:
-      - payment-mq
+      payment-mq:
+        condition: service_healthy
     build:
       context: .
       dockerfile: api.Dockerfile
