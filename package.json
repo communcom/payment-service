@@ -12,6 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cyberway-core-service": "^3.58.6"
+    "amqplib": "^0.5.5",
+    "cyberway-core-service": "^3.59.0",
+    "cyberwayjs": "^20.0.2",
+    "lodash": "^4.17.15",
+    "node-fetch": "^2.6.0",
+    "text-encoding": "^0.7.0",
+    "uuid": "^7.0.2"
   }
 }
