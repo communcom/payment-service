@@ -1,4 +1,4 @@
-const uuid = require('uuid/v1');
+const { v1: uuid } = require('uuid');
 const env = require('../../common/data/env');
 
 const QUANTITY_RX = /^\d+\.(\d{3,4}) ([A-Z]{3,10})$/;
