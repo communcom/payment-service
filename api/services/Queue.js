@@ -21,6 +21,10 @@ class Queue extends Service {
         this._mq = await mq.connect(env.GLS_MQ_CONNECT);
 
         this._mq.on('error', err => {
+            if (this._stopping) {
+                return;
+            }
+
             Logger.error('Critical Error: Message queue connection error:', err);
             process.exit(1);
         });
@@ -28,6 +32,10 @@ class Queue extends Service {
         this._channel = await this._mq.createChannel();
 
         this._channel.on('close', () => {
+            if (this._stopping) {
+                return;
+            }
+
             Logger.error('Critical Error: Message queue channel closed');
             process.exit(1);
         });
@@ -41,6 +49,16 @@ class Queue extends Service {
         this._channel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(data)), {
             persistent: true,
         });
+    }
+
+    async stop() {
+        this._stopping = true;
+
+        try {
+            this._mq.close();
+        } catch (err) {}
+
+        await super.stop();
     }
 }
 

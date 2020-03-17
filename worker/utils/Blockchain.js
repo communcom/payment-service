@@ -32,7 +32,7 @@ class Blockchain {
 
     async transferCommunityPoints({ userId, quantity, memo }) {
         return await this._transfer({
-            contract: 'c.token',
+            contract: 'c.point',
             userId,
             quantity,
             memo,
