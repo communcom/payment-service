@@ -1,12 +1,10 @@
 const core = require('cyberway-core-service');
 const { Connector: BasicConnector } = core.services;
-const Api = require('../controllers/Api');
 
 class Connector extends BasicConnector {
-    constructor() {
+    constructor({ api }) {
         super();
-
-        this._api = new Api();
+        this._api = api;
     }
 
     async start() {
@@ -29,7 +27,6 @@ class Connector extends BasicConnector {
                             },
                             memo: {
                                 type: 'string',
-                                default: null,
                             },
                         },
                     },
