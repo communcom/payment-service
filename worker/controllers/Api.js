@@ -25,7 +25,7 @@ class Api {
         return {
             id: paymentId,
             isDone: transfer.status === 'done',
-            transactionId: transfer.transactionId,
+            transactionId: transfer.transactionId || null,
         };
     }
 }

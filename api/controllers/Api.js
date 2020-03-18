@@ -7,12 +7,15 @@ const env = require('../data/env');
 const QUANTITY_RX = /^\d+\.(\d{3,4}) ([A-Z]{3,10})$/;
 
 class Api {
-    constructor({ connector, queue }) {
+    constructor({ queue }) {
         if (!env.GLS_API_KEY) {
             throw new Error('env GLS_API_KEY is not specified');
         }
 
         this._queue = queue;
+    }
+
+    setConnector(connector) {
         this._connector = connector;
     }
 

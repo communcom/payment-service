@@ -49,7 +49,7 @@ class Connector extends BasicConnector {
                 },
             },
             requiredClients: {
-                paymentWorker: `http://localhost:${env.GLS_CONNECTOR_PORT}`,
+                paymentWorker: env.GLS_WORKER_CONNECT,
             },
         });
     }

@@ -15,6 +15,7 @@ class Main extends BasicMain {
         const connector = new Connector({
             api,
         });
+        api.setConnector(connector);
 
         this.addNested(queue, connector);
     }
