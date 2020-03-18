@@ -3,16 +3,18 @@ const { BasicMain } = core.services;
 const env = require('../common/data/env');
 const Sender = require('./services/Sender');
 const Receiver = require('./services/Receiver');
+const Statistics = require('./services/Statistics');
 
 class Main extends BasicMain {
     constructor() {
         super(env);
 
         this.startMongoBeforeBoot();
-        const sender = new Sender();
-        const receiver = new Receiver({ sender });
+        const stats = new Statistics();
+        const sender = new Sender({ stats });
+        const receiver = new Receiver({ sender, stats });
 
-        this.addNested(sender, receiver);
+        this.addNested(stats, sender, receiver);
     }
 }
 

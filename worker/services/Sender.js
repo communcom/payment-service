@@ -9,10 +9,11 @@ const DEFAULT_PENALTY_MS = 5000;
 const MAX_PENALTY_MULTIPLIER = 100;
 
 class Sender extends Service {
-    constructor() {
+    constructor({ stats }) {
         super();
         this._stopping = false;
         this._bc = new Blockchain();
+        this._stats = stats;
 
         this._inProcessCounter = 0;
     }
@@ -159,7 +160,7 @@ class Sender extends Service {
         let result = null;
 
         try {
-            if (quantity.endsWith('CMN')) {
+            if (quantity.endsWith(' CMN')) {
                 result = await this._bc.transferCMN({ userId: toUserId, quantity, memo });
             } else {
                 result = await this._bc.transferCommunityPoints({
@@ -169,6 +170,8 @@ class Sender extends Service {
                 });
             }
         } catch (err) {
+            this._stats.inc('transfer', 'error');
+
             await TransferModel.updateOne(
                 {
                     id,
@@ -189,6 +192,8 @@ class Sender extends Service {
 
         try {
             const { fromUserId, transactionId } = result;
+
+            this._stats.inc('transfer', 'done');
 
             await TransferModel.updateOne(
                 {

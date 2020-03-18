@@ -65,6 +65,12 @@ module.exports = MongoDB.makeModel(
                     nextTryAt: 1,
                 },
             },
+            {
+                fields: {
+                    status: 1,
+                    statusChangedAt: 1,
+                },
+            },
         ],
     }
 );
