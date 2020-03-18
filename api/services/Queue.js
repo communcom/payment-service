@@ -3,7 +3,7 @@ const core = require('cyberway-core-service');
 const { Service } = core.services;
 const { Logger } = core.utils;
 
-const env = require('../../common/data/env');
+const env = require('../data/env');
 
 const QUEUE_NAME = env.GLS_QUEUE_NAME;
 

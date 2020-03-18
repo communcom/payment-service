@@ -4,7 +4,7 @@ const { TextEncoder, TextDecoder } = require('text-encoding');
 const { JsonRpc, Api } = require('cyberwayjs');
 const JsSignatureProvider = require('cyberwayjs/dist/eosjs-jssig').default;
 
-const env = require('../../common/data/env');
+const env = require('../data/env');
 
 class Blockchain {
     constructor() {

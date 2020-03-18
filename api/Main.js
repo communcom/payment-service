@@ -1,6 +1,6 @@
 const core = require('cyberway-core-service');
 const { BasicMain } = core.services;
-const env = require('../common/data/env');
+const env = require('./data/env');
 const Connector = require('./services/Connector');
 const Queue = require('./services/Queue');
 const Api = require('./controllers/Api');
@@ -15,6 +15,7 @@ class Main extends BasicMain {
         const connector = new Connector({
             api,
         });
+        api.setConnector(connector);
 
         this.addNested(queue, connector);
     }

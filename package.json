@@ -19,5 +19,8 @@
     "node-fetch": "^2.6.0",
     "text-encoding": "^0.7.0",
     "uuid": "^7.0.2"
+  },
+  "devDependencies": {
+    "prettier": "^1.19.1"
   }
 }
