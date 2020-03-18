@@ -160,7 +160,7 @@ class Sender extends Service {
         let result = null;
 
         try {
-            if (quantity.endsWith('CMN')) {
+            if (quantity.endsWith(' CMN')) {
                 result = await this._bc.transferCMN({ userId: toUserId, quantity, memo });
             } else {
                 result = await this._bc.transferCommunityPoints({
