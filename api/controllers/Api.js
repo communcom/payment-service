@@ -1,6 +1,7 @@
 const { v1: uuid } = require('uuid');
 const env = require('../../common/data/env');
 
+// Format: "123.123 TOKEN", "1.1234 TOKEN" where TOKEN 3-10 symbols.
 const QUANTITY_RX = /^\d+\.(\d{3,4}) ([A-Z]{3,10})$/;
 
 class Api {
