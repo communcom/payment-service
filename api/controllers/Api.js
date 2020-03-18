@@ -1,23 +1,26 @@
+const core = require('cyberway-core-service');
+const { Logger } = core.utils;
 const { v1: uuid } = require('uuid');
-const env = require('../../common/data/env');
+const env = require('../data/env');
 
 // Format: "123.123 TOKEN", "1.1234 TOKEN" where TOKEN 3-10 symbols.
 const QUANTITY_RX = /^\d+\.(\d{3,4}) ([A-Z]{3,10})$/;
 
 class Api {
-    constructor({ queue }) {
+    constructor({ connector, queue }) {
         if (!env.GLS_API_KEY) {
             throw new Error('env GLS_API_KEY is not specified');
         }
 
         this._queue = queue;
+        this._connector = connector;
     }
 
     async sendPayment({ apiKey, userId, quantity, memo }) {
         if (env.GLS_API_KEY !== apiKey) {
             throw {
                 code: 401,
-                message: 'Unauthorized',
+                message: 'Invalid api key',
             };
         }
 
@@ -37,6 +40,19 @@ class Api {
         return {
             id,
         };
+    }
+
+    async checkPayment({ apiKey, paymentId }) {
+        if (env.GLS_API_KEY !== apiKey) {
+            throw {
+                code: 401,
+                message: 'Invalid api key',
+            };
+        }
+
+        return this._connector.callService('paymentWorker', 'checkPayment', {
+            paymentId,
+        });
     }
 
     _checkQuantity(quantity) {

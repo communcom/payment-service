@@ -1,5 +1,6 @@
 const core = require('cyberway-core-service');
 const { Connector: BasicConnector } = core.services;
+const env = require('../data/env');
 
 class Connector extends BasicConnector {
     constructor({ api }) {
@@ -31,8 +32,25 @@ class Connector extends BasicConnector {
                         },
                     },
                 },
+                checkPayment: {
+                    handler: this._api.checkPayment,
+                    scope: this._api,
+                    validation: {
+                        required: ['apiKey', 'paymentId'],
+                        properties: {
+                            apiKey: {
+                                type: 'string',
+                            },
+                            paymentId: {
+                                type: 'string',
+                            },
+                        },
+                    },
+                },
             },
-            requiredClients: {},
+            requiredClients: {
+                paymentWorker: `http://localhost:${env.GLS_CONNECTOR_PORT}`,
+            },
         });
     }
 }
