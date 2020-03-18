@@ -8,9 +8,10 @@ const TransferModel = require('../models/Transfer');
 const QUEUE_NAME = env.GLS_QUEUE_NAME;
 
 class Receiver extends Service {
-    constructor({ sender }) {
+    constructor({ sender, stats }) {
         super();
         this._sender = sender;
+        this._stats = stats;
     }
 
     async start() {
@@ -55,6 +56,7 @@ class Receiver extends Service {
                 try {
                     await this._saveRequest(data);
                     this._channel.ack(msg);
+                    this._stats.inc('receiver', 'received');
                     this._sender.checkAsync();
                 } catch (err) {
                     Logger.error('Payment saving failed:', err);
