@@ -171,12 +171,15 @@ class Sender extends Service {
             }
         } catch (err) {
             this._stats.inc('transfer', 'error');
-            Logger.warn(`Transfer "${id}" failed, next try has scheduled,`, err);
+            Logger.warn(
+                `Transfer "${id}" failed, amount: "${quantity}", next try has scheduled,`,
+                err
+            );
 
             if (failCount === 0) {
                 sendAlert({
                     type: 'error',
-                    title: 'Transfer failed',
+                    title: `Transfer "${id}" failed, amount: "${quantity}"`,
                     text: err.message,
                 });
             }
