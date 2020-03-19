@@ -179,6 +179,7 @@ class Sender extends Service {
             if (failCount === 0) {
                 sendAlert({
                     type: 'error',
+                    prefix: '<!channel> ',
                     title: `Transfer "${id}" failed, amount: "${quantity}"`,
                     text: err.message,
                 });
