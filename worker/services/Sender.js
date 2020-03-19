@@ -1,6 +1,6 @@
 const core = require('cyberway-core-service');
 const { Service } = core.services;
-const { Logger } = core.utils;
+const { Logger, sendAlert } = core.utils;
 const TransferModel = require('../models/Transfer');
 const Blockchain = require('../utils/Blockchain');
 
@@ -171,6 +171,18 @@ class Sender extends Service {
             }
         } catch (err) {
             this._stats.inc('transfer', 'error');
+            Logger.warn(
+                `Transfer "${id}" failed, amount: "${quantity}", next try has scheduled,`,
+                err
+            );
+
+            if (failCount === 0) {
+                sendAlert({
+                    type: 'error',
+                    title: `Transfer "${id}" failed, amount: "${quantity}"`,
+                    text: err.message,
+                });
+            }
 
             await TransferModel.updateOne(
                 {
@@ -185,8 +197,6 @@ class Sender extends Service {
                     },
                 }
             );
-
-            Logger.warn(`Transfer "${id}" failed, next try has scheduled,`, err);
             return;
         }
 
